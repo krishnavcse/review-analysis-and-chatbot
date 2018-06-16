@@ -1,0 +1,72 @@
+ <h1> Success! Welcome {{request.session.first_name}} {{request.session.last_name}}</h1>
+<form id="signin" class="navbar-form navbar-right" role="form" action="/" >
+                    <input type="submit" class="btn btn-primary" id="search" value="Log Out" style="height:50px; width:80px" />
+</form>
+{% block content %}
+    <br /><br />
+    <form action="" method="get">
+        <label for="from">Product Name</label>
+            <input type="text" name="p_name">
+        <input type="submit" class="btn btn-primary" value="Submit" style="height:30px; width:80px" /><br>
+        <label for="from">Product Index</label>
+            <input type="text" name="p_index">
+        <input type="submit" class="btn btn-primary" value="Submit" style="height:30px; width:80px" /><br>
+    </form>
+{% endblock %}
+<br><br>
+<h1> Recommended Product List for : {{ request.session.p_cat }}</h1>
+{% for x,y in request.session.p_list %}
+    <h3>{{ x }} : {{ y }} </h3>
+{% endfor %}
+<br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/styles.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+
+    <!-- Website CSS style -->
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
+    <!-- Website Font style  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'main/styles.css' %}">
+    <title> Product Search</title>
+</head>
+<body>
+</br></br>
+</br></br>
+</br></br>
+<div>
+<form id="signin" class="navbar-form navbar-right" role="form" action="/previews" >
+                        <input type="submit" class="btn btn-primary" id="search" value="Few Product Reviews " style="height:50px; width:190px" />
+</form>
+</div>
+<div>
+<form id="signin" class="navbar-form navbar-right" role="form" action="/sentimentanalysis" >
+                    <input type="submit" class="btn btn-primary" id="search" value="Sentiment Analysis Based on Reviews and Overall Ratings" style="height:50px; width:400px" />
+</form>
+</div>
+<div>
+<form id="signin" class="navbar-form navbar-right" role="form" action="/chat" >
+                    <input type="submit" class="btn btn-primary" id="search" value="ChatBot Support" style="height:50px; width:200px" />
+</form>
+</div>
+
+    <br><br>
+     <br><br>
+
+     <br><br>
+      <script type="text/javascript" src="assets/js/bootstrap.js"></script>
+</body>
+</html>

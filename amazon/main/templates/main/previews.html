@@ -1,0 +1,26 @@
+<h1> Few Random Reviews for : {{ request.session.pname }}</h1>
+<br><br>
+{% for x in request.session.p_review %}
+    <h1>Review : </h1>
+    <h3>{{ x |safe}}</h3>
+{% endfor %}
+<br><br>
+<h1>{{ request.session.pname }} Price : {{ request.session.price }}</h1>
+<br><br>
+<h1>{{ request.session.pname }} URL : {{ request.session.url }}</h1>
+<br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Reviews </title>
+
+    <br><br>
+    <br><br>
+</head>
+<body>
+<form id="signin" class="navbar-form navbar-right" role="form" action="/success" >
+                    <input type="submit" class="btn btn-primary" id="search" value="Try Another Product" style="height:50px; width:500px" />
+</form>
+</body>
+</html>

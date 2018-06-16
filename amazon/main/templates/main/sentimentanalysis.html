@@ -1,0 +1,175 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sentiment Analysis</title>
+
+
+    <!-- Bootstrap core CSS -->
+
+	<link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/bootstrap/css/bootstrap.min.css' %}" />
+     <link rel="stylesheet" type="text.css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/scrolling-nav.css' %}" />
+
+	<style>
+	</style>
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Amazon.in Sentiment Analysis</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">Analyze Reviews</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <section id="about">
+      <br></br>
+      <br></br>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 mx-auto" style="text-align:center;">
+           <form action="/sentimentanalysis" method="POST" id="classify">
+            {% csrf_token %}
+                <p>Enter some text to classify:</p>
+                <p>{{ classifyForm.text }}</p>
+            <input type="submit" value="Submit" />
+        	</form>
+        	<p><strong>Sentiment: </strong>{{ textClassification }}</p>
+            <br></br>
+            <h4>OR</h4>
+            <form action="/sentimentanalysis" method="POST" id="search">
+            {% csrf_token %}
+                <p>{{ request.session.pname }} Reviews Sentiment</p>{{ searchForm.query }}
+            <input type="submit" value="Submit" />
+        	</form>
+            <br></br>
+    		<div class="col-md-12" height>
+        		<p><strong>Sentiment statistics:</strong></p>
+        		<p>Positive: {{ percent_pos }}%    |    Negative: {{ percent_neg }}%</p>
+   			</div>
+          <br><br>
+          <h1> Overall Rating : {{ request.session.pname }} </h1>
+              <h2> {{ request.session.rating }}</h2>
+   			<br></br>
+            <table class="table table-bordered">
+            	<thead>
+            		<tr>
+	                	<td><strong>Sentiment</strong></td>
+	                	<td><strong>{{ request.session.pname }} Reviews</strong></td>
+	                </tr>
+            	</thead>
+            	<tbody>
+	        		{% for pair in pairs %}
+	            		<tr>
+	            		{% for item in pair %}
+	                	<td>{{ item }}</td>
+	            		{% endfor %}
+	            		</tr>
+	        		{% endfor %}
+	        	</tbody>
+        	</table>
+          </div>
+        </div>
+      </div>
+
+      <br></br>
+    </section>
+
+
+    <!-- Bootstrap core JavaScript -->
+
+   	<!--<link rel="stylesheet" type="text/css" href="{% static 'startbootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" />-->
+
+    <script src="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+
+<div id="piechart"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+
+  var pos = {{ percent_pos }}
+  var ps = Number(pos)
+  Var neg = {{ percent_neg }}
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['Positive', ps],
+  ['Negative', neg],
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'My Average Day', 'width':550, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+
+</script>
+
+  <!-- Custom styles for this template -->
+    <link href="jumbotron.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Positive',   {{ percent_pos }}],
+          ['Negative',   {{ percent_neg }}],
+        ]);
+
+        var options = {
+          title: 'Pie Chart'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  <br><br><br>
+  <form id="signin" class="navbar-form navbar-right" role="form" action="/success" >
+                    <input type="submit" class="btn btn-primary" id="search" value="Try Another Product" style="height:50px; width:500px" />
+</form>
+
+  </body>
+
+</html>
